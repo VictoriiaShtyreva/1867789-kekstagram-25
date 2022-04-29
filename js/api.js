@@ -1,18 +1,22 @@
-import {showAlert} from './util.js';
-
 const Url =  {
   GET: 'https://25.javascript.pages.academy/kekstagram/data',
   POST: 'https://25.javascript.pages.academy/kekstagram',
 };
 
-const getData = (onSuccess) => {
+const getData = (onSuccess, onError) => {
   fetch(Url.GET)
-    .then((response) => response.json())
-    .then((photos) => {
-      onSuccess(photos);
+    .then((response) => {
+      if (response.ok) {
+        return response;
+      }
+      throw new Error('Ошибка загрузки данных. Попробуйте перезагрузить страницу.');
     })
-    .catch(() => {
-      showAlert('Что-то пошло не так, попробуйте позже...');
+    .then((response) => response.json())
+    .then((data) => {
+      onSuccess(data);
+    })
+    .catch((err) => {
+      onError(err);
     });
 };
 

@@ -13,13 +13,7 @@ const imagePreview = document.querySelector ('.img-upload__preview');
 const image = document.querySelector('img');
 const effectLevel = document.querySelector('.effect-level');
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
-const successMessage = document.querySelector('.success');
-const successMessageButton = document.querySelector('.success__button');
-const successInner = document.querySelector('.success__inner');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
-const errorMessage = document.querySelector('.error');
-const errorMessageButton = document.querySelector('.error__button');
-const errorInner = document.querySelector('.error__inner');
 const uploadButton = document.querySelector('.img-upload__submit');
 
 // нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
@@ -61,6 +55,7 @@ const onOverlayClose = () => {
   document.removeEventListener('keydown', onImageEscPress);
   uploadCancel.removeEventListener('click', onCancelClick);
 };
+
 // Cоздание функции для закрытия редактирования изображения
 function onCancelClick () {
   onOverlayClose();
@@ -81,6 +76,8 @@ const createSuccessMessage = () => {
 
 // Закрытие сообщения об успешной отправке
 const closeSuccessMessage = () => {
+  const successMessage = document.querySelector('.success');
+  const successMessageButton = successTemplate.querySelector('.success__button');
   successMessageButton.removeEventListener('click', onSuccessMessageClose);
   document.removeEventListener('keydown', onSuccessMessageEsc);
   body.removeChild(successMessage);
@@ -109,8 +106,11 @@ const blockSubmitButton = () => {
 // Обработчик на закрытие об успешной отправки формы
 const onSuccessCloseForm = () => {
   createSuccessMessage();
+  const successMessage = document.querySelector('.success');
+  const successMessageButton = successTemplate.querySelector('.success__button');
   document.addEventListener('keydown', onSuccessMessageEsc);
   successMessageButton.addEventListener('click', onSuccessMessageClose);
+  const successInner = document.querySelector('.success__inner');
   successMessage.addEventListener('click', (evt) => {
     if (evt.target !== successInner) {
       closeSuccessMessage();
@@ -126,6 +126,8 @@ const createErrorMessage = () => {
 
 // Закрытие сообщения об ошибки при отправке формы
 const closeErrorMessage = () => {
+  const errorMessage = document.querySelector('.error');
+  const errorMessageButton = errorMessage.querySelector('.error__button');
   errorMessageButton.addEventListener('click', onErrorMessageClose);
   document.removeEventListener('keydown', onErrorMessageEsc);
   body.removeChild(errorMessage);
@@ -144,9 +146,12 @@ function onErrorMessageEsc (evt) {
 // Обработчик закрытия на сообщение об ошибке при отправке формы
 const onErrorCloseForm = () => {
   createErrorMessage();
+  const errorMessage = document.querySelector('.error');
+  const errorMessageButton = errorTemplate.querySelector('.error__button');
   document.addEventListener('keydown', onErrorMessageEsc);
   errorMessageButton.addEventListener('click', onErrorMessageClose);
-  errorInner.addEventListener('click', (evt) => {
+  const errorInner = document.querySelector('.error__inner');
+  errorMessage.addEventListener('click', (evt) => {
     if (evt.target !== errorInner) {
       closeErrorMessage();
     }
